@@ -14,9 +14,6 @@ public class MainMenu extends JPanel {
         play.addActionListener(e -> frame.play());
         add(play);
 
-        JButton save = new JButton("Save");
-        add(save);
-
         JButton load = new JButton("Load");
         add(load);
 

@@ -1,0 +1,24 @@
+-v0.1
++-Added MainMenu.java
++Added OptionsMenu.java
++Added PathMaster3000.java
+-Basic navigation through menu
+
+-v0.2
++Added AppearancesMenu.java
++Added GridSizeMenu.java
+-User can now change grid size
+-User can now change Appearance
+
+-v0.3
++Added Game.java
++Added Field.java
++Added Position.java
++Added GameProgression.txt
+=Updated GridSizeMenu.java
+=Updated MainMenu.java
+=Updated PathMaster3000.java
+-Finished Game mechanics
+-Field colors fix
+-Game frame size fix
+-Player moving fix

@@ -10,31 +10,36 @@ public class PathMaster3000 extends JFrame {
     String activeFieldColor;
     String unusedFieldColor;
     String usedFieldColor;
+    String startFieldColor;
+    String endFieldColor;
     ArrayList<String> config = new ArrayList<>();
 
-    private CardLayout cardLayout = new CardLayout();
-    private JPanel cardPanel = new JPanel(cardLayout);
+    private final CardLayout cardLayout = new CardLayout();
+    private final JPanel cardPanel = new JPanel(cardLayout);
 
     MainMenu mainMenu = new MainMenu(this);
     OptionsMenu optionsMenu = new OptionsMenu(this);
     GridSizeMenu gridSizeMenu = new GridSizeMenu(this);
     AppearancesMenu appearancesMenu = new AppearancesMenu(this);
+    Game game = new Game();
+
 
     public PathMaster3000() {
         setTitle("PathMaster3000");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1000, 1000);
+        initializeConfig();
 
         cardPanel.add(mainMenu, "mainMenu");
         cardPanel.add(optionsMenu, "optionsMenu");
         cardPanel.add(gridSizeMenu, "gridSizeMenu");
         cardPanel.add(appearancesMenu, "appearancesMenu");
+        cardPanel.add(game, "game");
 
         setContentPane(cardPanel);
 
         cardLayout.show(cardPanel, "mainMenu");
 
-        initializeConfig();
         setVisible(true);
     }
 
@@ -49,13 +54,28 @@ public class PathMaster3000 extends JFrame {
             }
             reader.close();
         } catch (Exception exc) {
+            System.out.println("exc = " + exc);
         }
-        for (int i = 0; i < config.size(); i++) {
-            switch(config.get(i).split(" ")[0]) {
-                case "activeFieldColor": activeFieldColor = config.get(i).split(" ")[2]; break;
-                case "unusedFieldColor": unusedFieldColor = config.get(i).split(" ")[2]; break;
-                case "usedFieldColor": usedFieldColor = config.get(i).split(" ")[2]; break;
-                case "gridSize": gridSize = Integer.parseInt(config.get(i).split(" ")[2]); break;
+        for (String s : config) {
+            switch (s.split(" ")[0]) {
+                case "activeFieldColor":
+                    activeFieldColor = s.split(" ")[2];
+                    break;
+                case "unusedFieldColor":
+                    unusedFieldColor = s.split(" ")[2];
+                    break;
+                case "usedFieldColor":
+                    usedFieldColor = s.split(" ")[2];
+                    break;
+                case "gridSize":
+                    gridSize = Integer.parseInt(s.split(" ")[2]);
+                    break;
+                case "startFieldColor":
+                    startFieldColor = s.split(" ")[2];
+                    break;
+                case "endFieldColor":
+                    endFieldColor = s.split(" ")[2];
+                    break;
             }
         }
     }
@@ -76,11 +96,17 @@ public class PathMaster3000 extends JFrame {
         cardLayout.show(cardPanel, "appearancesMenu");
     }
 
+    public void showGame() {
+        cardLayout.show(cardPanel, "game");
+    }
+
     public void play() {
         System.out.println(activeFieldColor);
         System.out.println(unusedFieldColor);
         System.out.println(usedFieldColor);
         System.out.println(gridSize);
+        game.initializeGame(this);
+        showGame();
     }
 
     public void setGridSize(int gridSize) {
