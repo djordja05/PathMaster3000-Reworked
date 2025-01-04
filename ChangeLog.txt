@@ -15,6 +15,7 @@
 +Added Field.java
 +Added Position.java
 +Added GameProgression.txt
++Added ChangeLog.txt
 =Updated GridSizeMenu.java
 =Updated MainMenu.java
 =Updated PathMaster3000.java
