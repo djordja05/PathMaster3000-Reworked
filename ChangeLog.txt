@@ -1,5 +1,5 @@
 -v0.1
-+-Added MainMenu.java
++Added MainMenu.java
 +Added OptionsMenu.java
 +Added PathMaster3000.java
 -Basic navigation through menu
@@ -23,6 +23,7 @@
 -Field colors fix
 -Game frame size fix
 -Player moving fix
+-User can now play the game
 
 -v0.4
 =Updated Field.java
