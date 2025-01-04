@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -26,9 +27,24 @@ public class PathMaster3000 extends JFrame {
 
     public PathMaster3000() {
         setTitle("PathMaster3000");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1000, 1000);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         initializeConfig();
+
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+        game.setFocusable(true);
+
+        InputMap inputMap = game.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = game.getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke("ESCAPE"), "saveGame");
+        actionMap.put("saveGame", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                game.save();
+            }
+        });
 
         cardPanel.add(mainMenu, "mainMenu");
         cardPanel.add(optionsMenu, "optionsMenu");
@@ -101,11 +117,12 @@ public class PathMaster3000 extends JFrame {
     }
 
     public void play() {
-        System.out.println(activeFieldColor);
-        System.out.println(unusedFieldColor);
-        System.out.println(usedFieldColor);
-        System.out.println(gridSize);
         game.initializeGame(this);
+        showGame();
+    }
+
+    public void load() {
+        game.load(this);
         showGame();
     }
 
@@ -124,4 +141,5 @@ public class PathMaster3000 extends JFrame {
     public void setUsedFieldColor(String usedFieldColor) {
         this.usedFieldColor = usedFieldColor;
     }
+
 }

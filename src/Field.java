@@ -12,6 +12,13 @@ public class Field {
         this.pos = pos;
     }
 
+    public Field(Field field) {
+        this.color = field.color;
+        this.value = field.value;
+        this.used = field.used;
+        this.pos = field.pos;
+    }
+
     public String getColor() {
         return color;
     }
@@ -42,6 +49,10 @@ public class Field {
 
     public void setPos(Position pos) {
         this.pos = pos;
+    }
+
+    public String toString() {
+        return getColor() + "," + getValue() + "," + isUsed() + "," + getPos().getX() + "," + getPos().getY();
     }
 
 }

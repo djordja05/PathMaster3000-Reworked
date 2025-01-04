@@ -23,3 +23,15 @@
 -Field colors fix
 -Game frame size fix
 -Player moving fix
+
+-v0.4
+=Updated Field.java
+=Updated Game.java
+=Updated MainMenu.java
+=Updated PathMaster3000.java
+=Updated AppearancesMenu.java
+=Updated GameProgression.txt
+-User can now save the progress
+-User can now load the previously saved progress
+-Incorrect field color load fix
+!!If a user attempts to load progress without previously saving progress the program crashes!!
