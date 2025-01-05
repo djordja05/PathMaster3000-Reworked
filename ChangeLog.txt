@@ -36,3 +36,14 @@
 -User can now load the previously saved progress
 -Incorrect field color load fix
 !!If a user attempts to load progress without previously saving progress the program crashes!!
+
+-v0.5
++Added EndGame.java
+=Updated Game.java
+=Updated MainMenu.java
+=Updated PathMaster.java
+-User can now back out of Game into MainMenu
+-User can now load in a save without closing the Game
+-User can now see his Score and Moves in EndGame screen
+-Crash when attempting to load progress without previously saving progress fix
+-Incorrect Font color fix

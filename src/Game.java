@@ -26,67 +26,83 @@ public class Game extends JPanel {
         setFocusTraversalKeysEnabled(false);
     }
 
-    protected void initializeGame(PathMaster3000 frame) {
+    protected void initializeGame(PathMaster3000 frame, boolean isPlayed) {
             frame.setSize(frame.gridSize * 100, frame.gridSize * 100);
-            setLayout(new GridLayout(frame.gridSize, frame.gridSize));
-            fields = new Field[frame.gridSize][frame.gridSize];
-            gridSize = frame.gridSize;
-            activeFieldColor = frame.activeFieldColor;
-            usedFieldColor = frame.usedFieldColor;
-            unusedFieldColor = frame.unusedFieldColor;
-            endFieldColor = frame.endFieldColor;
-            startFieldColor = frame.startFieldColor;
+            if (!isPlayed) {
+                setLayout(new GridLayout(frame.gridSize, frame.gridSize));
+                fields = new Field[frame.gridSize][frame.gridSize];
+                gridSize = frame.gridSize;
+                activeFieldColor = frame.activeFieldColor;
+                usedFieldColor = frame.usedFieldColor;
+                unusedFieldColor = frame.unusedFieldColor;
+                endFieldColor = frame.endFieldColor;
+                startFieldColor = frame.startFieldColor;
 
-            fields[startFieldPosition.getX()][startFieldPosition.getY()] = new Field(startFieldColor, "Start", true, startFieldPosition);
-            fields[endFieldPosition.getX()][endFieldPosition.getY()] = new Field(endFieldColor, "End", true, endFieldPosition);
+                fields[startFieldPosition.getX()][startFieldPosition.getY()] = new Field(startFieldColor, "Start", true, startFieldPosition);
+                fields[endFieldPosition.getX()][endFieldPosition.getY()] = new Field(endFieldColor, "End", true, endFieldPosition);
 
-            for (int i = 0; i < frame.gridSize; i++) {
-                for (int j = 0; j < frame.gridSize; j++) {
-                    if (fields[i][j] == null) {
-                        fields[i][j] = new Field(frame.unusedFieldColor, String.valueOf((int) (Math.random() * 10)), false, new Position(i, j));
+                for (int i = 0; i < frame.gridSize; i++) {
+                    for (int j = 0; j < frame.gridSize; j++) {
+                        if (fields[i][j] == null) {
+                            fields[i][j] = new Field(frame.unusedFieldColor, String.valueOf((int) (Math.random() * 10)), false, new Position(i, j));
+                        }
+                    }
+                }
+
+                for (int i = 0; i < frame.gridSize; i++) {
+                    for (int j = 0; j < frame.gridSize; j++) {
+                        JButton button = new JButton(fields[i][j].getValue());
+                        button.setBackground(getColor(fields[i][j].getColor()));
+                        button.setForeground((getColor(fields[i][j].getColor()).equals(Color.WHITE))
+                                || (getColor(fields[i][j].getColor()).equals(Color.YELLOW))
+                                || (getColor(fields[i][j].getColor()).equals(Color.GREEN))
+                                || (getColor(fields[i][j].getColor()).equals(Color.BLUE)) ? Color.WHITE : Color.BLACK);
+                        int J = j;
+                        int I = i;
+                        button.setFont(new Font("Comic Sans", Font.PLAIN, 20));
+                        button.addActionListener(e -> cursor(fields[I][J], frame));
+                        add(button);
                     }
                 }
             }
-
-            for (int i = 0; i < frame.gridSize; i++) {
-                for (int j = 0; j < frame.gridSize; j++) {
-                    JButton button = new JButton(fields[i][j].getValue());
-                    button.setBackground(getColor(fields[i][j].getColor()));
-                    button.setForeground((getColor(fields[i][j].getColor()).equals(Color.WHITE))
-                            || (getColor(fields[i][j].getColor()).equals(Color.YELLOW))
-                            || (getColor(fields[i][j].getColor()).equals(Color.GREEN)) ? Color.WHITE : Color.BLACK);
-                    int J = j;
-                    int I = i;
-                    button.addActionListener(e -> cursor(fields[I][J]));
-                    add(button);
-            }
-        }
     }
 
-    protected void load(PathMaster3000 frame) {
-        gameConfig();
-        frame.setSize(gridSize * 100, gridSize * 100);
-        setLayout(new GridLayout(gridSize, gridSize));
+    protected void load(PathMaster3000 frame, boolean isPlayed) {
+        if (!isPlayed) {
+            gameConfig();
+            if (isActive) {
+                setLayout(new GridLayout(gridSize, gridSize));
 
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
-                JButton button = new JButton(fields[i][j].getValue());
-                if (fields[i][j].getPos().getX() == activePosition.getX() && fields[i][j].getPos().getY() == activePosition.getY()) {
-                    button.setBackground(getColor(activeFieldColor));
-                } else if (fields[i][j].isUsed() && !(fields[i][j].getValue().equals("End"))) {
-                    button.setBackground(getColor(usedFieldColor));
-                } else {
-                    button.setBackground(getColor(fields[i][j].getColor()));
+                for (int i = 0; i < gridSize; i++) {
+                    for (int j = 0; j < gridSize; j++) {
+                        JButton button = new JButton(fields[i][j].getValue());
+                        if (fields[i][j].getPos().getX() == activePosition.getX() && fields[i][j].getPos().getY() == activePosition.getY()) {
+                            button.setBackground(getColor(activeFieldColor));
+                        } else if (fields[i][j].isUsed() && !(fields[i][j].getValue().equals("End"))) {
+                            button.setBackground(getColor(usedFieldColor));
+                        } else {
+                            button.setBackground(getColor(fields[i][j].getColor()));
+                        }
+                        button.setForeground((getColor(fields[i][j].getColor()).equals(Color.WHITE))
+                                || (getColor(fields[i][j].getColor()).equals(Color.YELLOW))
+                                || (getColor(fields[i][j].getColor()).equals(Color.GREEN))
+                                || (getColor(fields[i][j].getColor()).equals(Color.BLUE)) ? Color.WHITE : Color.BLACK);
+                        int J = j;
+                        int I = i;
+                        button.setFont(new Font("Comic Sans", Font.PLAIN, 20));
+                        button.addActionListener(e -> cursor(fields[I][J], frame));
+                        add(button);
+                    }
                 }
-                button.setForeground((getColor(fields[i][j].getColor()).equals(Color.WHITE))
-                        || (getColor(fields[i][j].getColor()).equals(Color.YELLOW))
-                        || (getColor(fields[i][j].getColor()).equals(Color.GREEN)) ? Color.WHITE : Color.BLACK);
-                int J = j;
-                int I = i;
-                button.addActionListener(e -> cursor(fields[I][J]));
-                add(button);
+                frame.isPlayed = true;
+                frame.showGame();
             }
         }
+        if (gridSize != 0) {
+            frame.setSize(gridSize * 100, gridSize * 100);
+            frame.showGame();
+        }
+
     }
 
     private Color getColor(String color) {
@@ -106,7 +122,7 @@ public class Game extends JPanel {
         colors = {"Red", "Green", "Blue", "Yellow", "Orange", "Magenta", "Cyan", "White"};
      **/
 
-    private void cursor(Field field) {
+    private void cursor(Field field, PathMaster3000 frame) {
 //        if ((field.getPos().x == activePosition.x + 1 && field.getPos().y == activePosition.y + 1)) {
 //            if (getComponent(field.getPos().y + ((field.getPos().x) * gridSize)).getBackground().equals(getColor(unusedFieldColor))) {
 //                move(field);
@@ -137,9 +153,9 @@ public class Game extends JPanel {
                 || (field.getPos().x == activePosition.x - 1 && field.getPos().y == activePosition.y + 1)
                 || (field.getPos().x == activePosition.x - 1 && field.getPos().y == activePosition.y - 1)) {
             if (getComponent(field.getPos().y + ((field.getPos().x) * gridSize)).getBackground().equals(getColor(unusedFieldColor))) {
-                move(field);
+                move(field, frame);
             }   else if ((getComponent(field.getPos().y + ((field.getPos().x) * gridSize)).getBackground().equals(getColor(endFieldColor)))) {
-                move(field);
+                move(field, frame);
             }
         }
         System.out.println(activePosition.x + " " + activePosition.y);
@@ -147,12 +163,13 @@ public class Game extends JPanel {
 
     }
 
-    private void move(Field field) {
+    private void move(Field field, PathMaster3000 frame) {
         if (field.getColor().equals(endFieldColor)) {
             moves++;
             score /= moves;
             System.out.println("score = " + score);
             System.out.println("moves = " + moves);
+            frame.showEndGame(this);
         } else {
             fields[activePosition.getX()][activePosition.getY()].setUsed(true);
             getComponent(activePosition.y + activePosition.x * gridSize).setBackground(getColor(usedFieldColor));
@@ -192,19 +209,18 @@ public class Game extends JPanel {
             writer.write("moves = " + moves);
             writer.newLine();
             writer.write("Fields=");
-            for (int i = 0; i < fields.length; i++) {
+            for (Field[] field : fields) {
                 for (int j = 0; j < fields.length; j++) {
-                    writer.write(fields[i][j].toString() + " ");
+                    writer.write(field[j].toString() + " ");
                 }
             }
             writer.close();
         } catch (Exception e) {
             System.out.println("e = " + e);
         }
-        System.exit(0);
     }
 
-    protected void gameConfig() {
+    void gameConfig() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("GameProgression.txt"));
             String read = reader.readLine();

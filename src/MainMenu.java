@@ -5,7 +5,7 @@ public class MainMenu extends JPanel {
 
 
     public MainMenu(PathMaster3000 frame) {
-        setLayout(new GridLayout(20,1));
+        setLayout(new GridLayout(10,1));
         initializeMainMenu(frame);
     }
 
