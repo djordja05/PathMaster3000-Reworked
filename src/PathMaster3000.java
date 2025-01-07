@@ -13,6 +13,7 @@ public class PathMaster3000 extends JFrame {
     String usedFieldColor;
     String startFieldColor;
     String endFieldColor;
+    boolean randomizeStartEnd;
     ArrayList<String> config = new ArrayList<>();
     boolean isPlayed = false;
 
@@ -25,6 +26,7 @@ public class PathMaster3000 extends JFrame {
     AppearancesMenu appearancesMenu = new AppearancesMenu(this);
     Game game = new Game();
     EndGame endGame = new EndGame();
+    StartEndPositionSetter startEndPositionSetter = new StartEndPositionSetter();
 
 
     public PathMaster3000() {
@@ -56,6 +58,7 @@ public class PathMaster3000 extends JFrame {
         cardPanel.add(appearancesMenu, "appearancesMenu");
         cardPanel.add(game, "game");
         cardPanel.add(endGame, "endGame");
+        cardPanel.add(startEndPositionSetter, "startEndPositionSetter");
 
         setContentPane(cardPanel);
 
@@ -103,6 +106,7 @@ public class PathMaster3000 extends JFrame {
 
     public void showOptionsMenu() {
         cardLayout.show(cardPanel, "optionsMenu");
+        setSize(700, 700);
     }
 
     public void showMainMenu() {
@@ -122,18 +126,22 @@ public class PathMaster3000 extends JFrame {
     }
 
     public void showEndGame(Game game) {
-        endGame.initializeEndGame(game);
+        endGame.initializeEndGame(game, this);
         cardLayout.show(cardPanel, "endGame");
     }
 
+    public void showStartEndPositionSetter() {
+        cardLayout.show(cardPanel, "startEndPositionSetter");
+        startEndPositionSetter.initializeStartEndPosSetter(this);
+    }
+
     public void play() {
-        game.initializeGame(this, isPlayed);
-        isPlayed = true;
+        game.initializeGame(this);
         showGame();
     }
 
     public void load() {
-        game.load(this, isPlayed);
+        game.load(this);
     }
 
     public void setGridSize(int gridSize) {
@@ -152,4 +160,11 @@ public class PathMaster3000 extends JFrame {
         this.usedFieldColor = usedFieldColor;
     }
 
+    public boolean isRandomizeStartEnd() {
+        return randomizeStartEnd;
+    }
+
+    public void setRandomizeStartEnd(boolean randomizeStartEnd) {
+        this.randomizeStartEnd = randomizeStartEnd;
+    }
 }

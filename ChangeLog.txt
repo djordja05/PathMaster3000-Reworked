@@ -47,3 +47,19 @@
 -User can now see his Score and Moves in EndGame screen
 -Crash when attempting to load progress without previously saving progress fix
 -Incorrect Font color fix
+
+-v0.6
++Added StartEndPositionSetter.java
++Added Instructions.txt
+=Updated EndGame.java
+=Updated Game.java
+=Updated MainMenu.java
+=Updated OptionsMenu.java
+=Updated PathMaster3000.java
+-User can now manually select Start and End positions
+-User can now randomly generate Start and End positions
+-EndGame now displays "Sum of selected fields" and "Elapsed Time"
+-Game generator fix
+-Incompatible grid size and Start and End positions fix
+-Load crashing the game fix
+-Load generating game twice fix

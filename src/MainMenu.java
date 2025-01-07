@@ -25,6 +25,7 @@ public class MainMenu extends JPanel {
         JButton exit = new JButton("Exit");
         exit.addActionListener(e -> System.exit(0));
         add(exit);
+
     }
 
 }
