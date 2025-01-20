@@ -1,9 +1,0 @@
-Default values
---APPEARANCE--
-activeFieldColor = Yellow
-usedFieldColor = Red
-unusedFieldColor = Blue
-startFieldColor = Green
-endFieldColor = Magenta
---GRID SIZE--
-gridSize = 5

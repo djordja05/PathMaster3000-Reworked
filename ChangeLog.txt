@@ -63,3 +63,33 @@
 -Incompatible grid size and Start and End positions fix
 -Load crashing the game fix
 -Load generating game twice fix
+
+-v1.0
+=Updated AppearancesMenu.java
+=Updated Field.java
+=Updated Game.java
+=Updated GridSizeMenu.java
+=Updated Main.java
+=Updated MainMenu.java
+=Updated OptionsMenu.java
+=Updated PathMaster3000.java
+=Updated StartEndPositionSetter.java
+--Removed EndGame.java
+--Removed config.txt
+--Removed GameProgression.txt
+-User can now play the fully released game
+-User can now choose any color that exists for fields
+-Improved Start End Position Setter
+-Improved Grid Layout in: AppearancesMenu, GridSizeMenu, MainMenu and OptionsMenu
+-Gameplay moving fix
+-Added Elapsed time to Endgame screen.
+-Load() crashing the game when GameProgression.txt file is missing fix
+-Save() not saving when GameProgression.txt file is missing fix
+-initializeConfig() crashing when config.txt file is missing fix
+
+v1.1
++Added SaveLoadManager.java
+=Updated Game.java
+=Updated PathMaster3000.java
+-Load() chrashing the game when GameProgression not empty and doesn't have saved progress fix
+-Added new object SaveLoadManager that now has save and load features that were previously in Game.java

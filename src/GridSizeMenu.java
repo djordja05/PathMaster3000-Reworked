@@ -4,7 +4,7 @@ import java.awt.*;
 public class GridSizeMenu extends JPanel {
 
     public GridSizeMenu(PathMaster3000 frame) {
-        setLayout(new GridLayout(20, 1));
+        setLayout(new GridLayout(3, 1));
 
         String[] sizes = {"3 x 3", "4 x 4", "5 x 5", "6 x 6", "7 x 7", "8 x 8", "9 x 9", "10 x 10", "11 x 11", "12 x 12"};
         JComboBox<String> gridSizes = new JComboBox<>(sizes);

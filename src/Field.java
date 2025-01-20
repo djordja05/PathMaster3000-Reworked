@@ -1,11 +1,13 @@
+import java.awt.*;
+
 public class Field {
 
-    String color;
+    Color color;
     String value;
     boolean used;
     Position pos;
 
-    public Field(String color, String value, boolean used, Position pos) {
+    public Field(Color color, String value, boolean used, Position pos) {
         this.color = color;
         this.value = value;
         this.used = used;
@@ -19,11 +21,11 @@ public class Field {
         this.pos = field.pos;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
@@ -52,7 +54,7 @@ public class Field {
     }
 
     public String toString() {
-        return getColor() + "," + getValue() + "," + isUsed() + "," + getPos().getX() + "," + getPos().getY();
+        return getColor().getRed() + ";" + getColor().getGreen() + ";" + getColor().getBlue() + "," + getValue() + "," + isUsed() + "," + getPos().getX() + "," + getPos().getY();
     }
 
 }

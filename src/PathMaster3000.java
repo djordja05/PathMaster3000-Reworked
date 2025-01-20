@@ -1,19 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 public class PathMaster3000 extends JFrame {
 
     int gridSize;
-    String activeFieldColor;
-    String unusedFieldColor;
-    String usedFieldColor;
-    String startFieldColor;
-    String endFieldColor;
-    boolean randomizeStartEnd;
+    Color activeFieldColor;
+    Color unusedFieldColor;
+    Color usedFieldColor;
+    Color startFieldColor;
+    Color endFieldColor;
     ArrayList<String> config = new ArrayList<>();
     boolean isPlayed = false;
 
@@ -25,39 +23,25 @@ public class PathMaster3000 extends JFrame {
     GridSizeMenu gridSizeMenu = new GridSizeMenu(this);
     AppearancesMenu appearancesMenu = new AppearancesMenu(this);
     Game game = new Game();
-    EndGame endGame = new EndGame();
     StartEndPositionSetter startEndPositionSetter = new StartEndPositionSetter();
 
 
     public PathMaster3000() {
         setTitle("PathMaster3000");
-        setSize(700, 700);
+        setSize(500, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         initializeConfig();
 
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         game.setFocusable(true);
 
-        InputMap inputMap = game.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = game.getActionMap();
-
-        inputMap.put(KeyStroke.getKeyStroke("ESCAPE"), "saveGame");
-        actionMap.put("saveGame", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setSize(700, 700);
-                showMainMenu();
-                game.save();
-            }
-        });
-
         cardPanel.add(mainMenu, "mainMenu");
         cardPanel.add(optionsMenu, "optionsMenu");
         cardPanel.add(gridSizeMenu, "gridSizeMenu");
         cardPanel.add(appearancesMenu, "appearancesMenu");
         cardPanel.add(game, "game");
-        cardPanel.add(endGame, "endGame");
         cardPanel.add(startEndPositionSetter, "startEndPositionSetter");
 
         setContentPane(cardPanel);
@@ -69,6 +53,9 @@ public class PathMaster3000 extends JFrame {
 
     private void initializeConfig() {
         try {
+            if (!new File("config.txt").exists()) {
+                createConfig();
+            }
             BufferedReader reader = new BufferedReader(new FileReader("config.txt"));
             config = new ArrayList<>();
             String line = reader.readLine();
@@ -77,28 +64,28 @@ public class PathMaster3000 extends JFrame {
                 line = reader.readLine();
             }
             reader.close();
-        } catch (Exception exc) {
-            System.out.println("exc = " + exc);
+        } catch (Exception e) {
+            System.out.println("initializeConfig() = " + e.getMessage());
         }
         for (String s : config) {
             switch (s.split(" ")[0]) {
                 case "activeFieldColor":
-                    activeFieldColor = s.split(" ")[2];
+                    activeFieldColor = game.getColor(s.split(" ")[2]);
                     break;
                 case "unusedFieldColor":
-                    unusedFieldColor = s.split(" ")[2];
+                    unusedFieldColor = game.getColor(s.split(" ")[2]);
                     break;
                 case "usedFieldColor":
-                    usedFieldColor = s.split(" ")[2];
+                    usedFieldColor = game.getColor(s.split(" ")[2]);
                     break;
                 case "gridSize":
                     gridSize = Integer.parseInt(s.split(" ")[2]);
                     break;
                 case "startFieldColor":
-                    startFieldColor = s.split(" ")[2];
+                    startFieldColor = game.getColor(s.split(" ")[2]);
                     break;
                 case "endFieldColor":
-                    endFieldColor = s.split(" ")[2];
+                    endFieldColor = game.getColor(s.split(" ")[2]);
                     break;
             }
         }
@@ -106,11 +93,11 @@ public class PathMaster3000 extends JFrame {
 
     public void showOptionsMenu() {
         cardLayout.show(cardPanel, "optionsMenu");
-        setSize(700, 700);
     }
 
     public void showMainMenu() {
         cardLayout.show(cardPanel, "mainMenu");
+        this.setSize(500, 500);
     }
 
     public void showGridSizeMenu() {
@@ -125,46 +112,53 @@ public class PathMaster3000 extends JFrame {
         cardLayout.show(cardPanel, "game");
     }
 
-    public void showEndGame(Game game) {
-        endGame.initializeEndGame(game, this);
-        cardLayout.show(cardPanel, "endGame");
-    }
-
     public void showStartEndPositionSetter() {
         cardLayout.show(cardPanel, "startEndPositionSetter");
         startEndPositionSetter.initializeStartEndPosSetter(this);
     }
 
-    public void play() {
-        game.initializeGame(this);
+    public void play(boolean isPosSet) {
+        game.initializeGame(this, isPosSet);
         showGame();
     }
 
     public void load() {
-        game.load(this);
+        game.saveLoadManager.load(this, game);
     }
 
     public void setGridSize(int gridSize) {
         this.gridSize = gridSize;
     }
 
-    public void setActiveFieldColor(String activeFieldColor) {
+    public void setActiveFieldColor(Color activeFieldColor) {
         this.activeFieldColor = activeFieldColor;
     }
 
-    public void setUnusedFieldColor(String unusedFieldColor) {
+    public void setUnusedFieldColor(Color unusedFieldColor) {
         this.unusedFieldColor = unusedFieldColor;
     }
 
-    public void setUsedFieldColor(String usedFieldColor) {
+    public void setUsedFieldColor(Color usedFieldColor) {
         this.usedFieldColor = usedFieldColor;
     }
 
-    public boolean isRandomizeStartEnd() {
-        return randomizeStartEnd;
+    private void createConfig() {
+        try {
+            new File("config.txt").createNewFile();
+            BufferedWriter writer = new BufferedWriter(new FileWriter("config.txt"));
+            writer.write("Default values\n"
+                    + "--APPEARANCE--\n"
+                    + "activeFieldColor = Yellow\n"
+                    + "usedFieldColor = Red\n"
+                    + "unusedFieldColor = Blue\n"
+                    + "startFieldColor = Green\n"
+                    + "endFieldColor = Magenta\n"
+                    + "--GRID SIZE--\n"
+                    + "gridSize = 5");
+            writer.close();
+        } catch (Exception e) {
+            System.out.println("createConfig() = " + e.getMessage());
+        }
     }
 
-    public void setRandomizeStartEnd(boolean randomizeStartEnd) {
-        this.randomizeStartEnd = randomizeStartEnd;
-    }
 }

@@ -21,7 +21,7 @@ public class StartEndPositionSetter extends JPanel {
         for (int i = 0; i < frame.gridSize; i++) {
             for (int j = 0; j < frame.gridSize; j++) {
                 if (fields[i][j] == null) {
-                    fields[i][j] = new Field("Green", "Click!", false, new Position(i, j));
+                    fields[i][j] = new Field(Color.GREEN, "Click!", false, new Position(i, j));
                 }
             }
         }
@@ -44,32 +44,33 @@ public class StartEndPositionSetter extends JPanel {
     public void setStartEnd(Field field, PathMaster3000 frame) {
         if (!hasStart) {
             getComponent(field.getPos().y + ((field.getPos().x) * gridSize)).setBackground(Color.GREEN);
+            JButton temp = (JButton) getComponent(field.getPos().y + (field.getPos().x * gridSize));
+            temp.setText("Start");
+            temp.revalidate();
             frame.game.startFieldPosition = new Position(field.getPos().x, field.getPos().y);
-            for (int i = 0; i < gridSize; i++) {
-                for (int j = 0; j < gridSize; j++) {
-                    if (((field.getPos().x + field.getPos().y) % 2 == 0) && ((i + j) % 2 != 0)) {
-                        if (!(getComponent(j + (i * gridSize)).getBackground() == Color.GREEN)) {
-                            JButton temp = (JButton) getComponent(j + (i * gridSize));
-                            temp.setBackground(Color.BLACK);
-                            temp.setText("");
-                            temp.revalidate();
-                        }
-                    } else if (((field.getPos().x + field.getPos().y) % 2 != 0) && ((i + j) % 2 == 0)) {
-                        JButton temp = (JButton) getComponent(j + (i * gridSize));
-                        temp.setBackground(Color.BLACK);
-                        temp.setText("");
-                        temp.revalidate();
-                    }
-                }
-            }
+//            for (int i = 0; i < gridSize; i++) {
+//                for (int j = 0; j < gridSize; j++) {
+//                    if (((field.getPos().x + field.getPos().y) % 2 == 0) && ((i + j) % 2 != 0)) {
+//                        if (!(getComponent(j + (i * gridSize)).getBackground() == Color.GREEN)) {
+//                            JButton temp = (JButton) getComponent(j + (i * gridSize));
+//                            temp.setBackground(Color.BLACK);
+//                            temp.setText("");
+//                            temp.revalidate();
+//                        }
+//                    } else if (((field.getPos().x + field.getPos().y) % 2 != 0) && ((i + j) % 2 == 0)) {
+//                        JButton temp = (JButton) getComponent(j + (i * gridSize));
+//                        temp.setBackground(Color.BLACK);
+//                        temp.setText("");
+//                        temp.revalidate();
+//                    }
+//                }
+//            }
             hasStart = true;
         } else {
-            if ((frame.game.startFieldPosition.getX() + frame.game.startFieldPosition.getY() + field.getPos().x + field.getPos().y) % 2 == 0) {
-                    frame.game.endFieldPosition = new Position(field.getPos().x, field.getPos().y);
-                    hasStart = false;
-                    removeAll();
-                    frame.showOptionsMenu();
-            }
+            frame.game.endFieldPosition = new Position(field.getPos().x, field.getPos().y);
+            hasStart = false;
+            removeAll();
+            frame.play(true);
         }
     }
 }

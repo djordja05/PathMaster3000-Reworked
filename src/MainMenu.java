@@ -5,13 +5,13 @@ public class MainMenu extends JPanel {
 
 
     public MainMenu(PathMaster3000 frame) {
-        setLayout(new GridLayout(10,1));
+        setLayout(new GridLayout(4,1));
         initializeMainMenu(frame);
     }
 
     private void initializeMainMenu(PathMaster3000 frame) {
         JButton play = new JButton("Play");
-        play.addActionListener(e -> frame.play());
+        play.addActionListener(e -> frame.play(false));
         add(play);
 
         JButton load = new JButton("Load");

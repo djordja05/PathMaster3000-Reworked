@@ -2,7 +2,6 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-Todo.txt
 
 ### Eclipse ###
 .apt_generated
